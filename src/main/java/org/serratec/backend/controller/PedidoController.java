@@ -1,5 +1,6 @@
 package org.serratec.backend.controller;
 
+import org.serratec.backend.dto.PedidoRequestDTO;
 import org.serratec.backend.dto.PedidoResponseDTO;
 import org.serratec.backend.entity.Pedido;
 import org.serratec.backend.service.PedidoService;
@@ -26,14 +27,14 @@ public class PedidoController {
     }
 
     @PostMapping
-    public Pedido inserir(@RequestBody Pedido pedido) {
-        return service.inserir(pedido);
+    public ResponseEntity<PedidoResponseDTO> inserir(@RequestBody PedidoRequestDTO pedido) {
+        return ResponseEntity.ok(service.inserir(pedido));
     }
 
     @PutMapping("/{id}")
-    public Pedido atualizar(@PathVariable Long id, @RequestBody Pedido pedido) {
+    public ResponseEntity<PedidoResponseDTO> atualizar(@PathVariable Long id, @RequestBody PedidoRequestDTO pedido) {
         pedido.setId(id);
-        return service.atualizar(pedido);
+        return ResponseEntity.ok(service.atualizar(pedido));
     }
 
     @DeleteMapping("/{id}")

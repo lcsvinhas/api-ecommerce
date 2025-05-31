@@ -2,7 +2,6 @@ package org.serratec.backend.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.PastOrPresent;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -14,7 +13,6 @@ public class Pedido {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private LocalDate dataPedido;
 
     @ManyToOne
@@ -25,16 +23,8 @@ public class Pedido {
     private Status status;
 
     @JsonManagedReference
-    @OneToMany(mappedBy = "id.pedido")
+    @OneToMany(mappedBy = "id.pedido", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PedidoProduto> pedidoProdutos = new ArrayList<PedidoProduto>();
-
-    public List<PedidoProduto> getPedidoProdutos() {
-        return pedidoProdutos;
-    }
-
-    public void setPedidoProdutos(List<PedidoProduto> pedidoProdutos) {
-        this.pedidoProdutos = pedidoProdutos;
-    }
 
     public Long getId() {
         return id;
@@ -66,5 +56,13 @@ public class Pedido {
 
     public void setStatus(Status status) {
         this.status = status;
+    }
+
+    public List<PedidoProduto> getPedidoProdutos() {
+        return pedidoProdutos;
+    }
+
+    public void setPedidoProdutos(List<PedidoProduto> pedidoProdutos) {
+        this.pedidoProdutos = pedidoProdutos;
     }
 }

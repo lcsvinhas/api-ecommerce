@@ -14,14 +14,8 @@ public class Produto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @NotBlank
     private String nome;
-
-    @NotBlank
     private String descricao;
-
-    @NotNull
     private Double preco;
 
     @ManyToOne
@@ -31,14 +25,6 @@ public class Produto {
     @JsonManagedReference
     @OneToMany(mappedBy = "id.produto")
     private List<PedidoProduto> pedidoProdutos = new ArrayList<PedidoProduto>();
-
-    public List<PedidoProduto> getPedidoProdutos() {
-        return pedidoProdutos;
-    }
-
-    public void setPedidoProdutos(List<PedidoProduto> pedidoProdutos) {
-        this.pedidoProdutos = pedidoProdutos;
-    }
 
     public Long getId() {
         return id;
@@ -78,5 +64,13 @@ public class Produto {
 
     public void setCategoria(Categoria categoria) {
         this.categoria = categoria;
+    }
+
+    public List<PedidoProduto> getPedidoProdutos() {
+        return pedidoProdutos;
+    }
+
+    public void setPedidoProdutos(List<PedidoProduto> pedidoProdutos) {
+        this.pedidoProdutos = pedidoProdutos;
     }
 }

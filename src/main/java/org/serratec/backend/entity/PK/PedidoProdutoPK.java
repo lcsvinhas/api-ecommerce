@@ -1,5 +1,6 @@
 package org.serratec.backend.entity.PK;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -11,10 +12,12 @@ import java.util.Objects;
 @Embeddable
 public class PedidoProdutoPK {
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "id_pedido")
     private Pedido pedido;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "id_produto")
     private Produto produto;

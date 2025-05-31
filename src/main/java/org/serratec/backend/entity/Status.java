@@ -7,7 +7,7 @@ public enum Status {
     FATURADO,
     CANCELADO,
     PENDENTE,
-    PROSSESSANDO,
+    PROCESSANDO,
     ENTREGUE,
     ENVIADO;
 

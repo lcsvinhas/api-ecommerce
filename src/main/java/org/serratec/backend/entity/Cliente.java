@@ -1,7 +1,6 @@
 package org.serratec.backend.entity;
 
 import jakarta.persistence.*;
-import org.hibernate.validator.constraints.br.CPF;
 
 @Entity
 public class Cliente {
@@ -9,15 +8,9 @@ public class Cliente {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String nome;
-
-    @CPF
-    @Column(unique = true)
     private String cpf;
-
     private String email;
-
     private String telefone;
 
     @ManyToOne

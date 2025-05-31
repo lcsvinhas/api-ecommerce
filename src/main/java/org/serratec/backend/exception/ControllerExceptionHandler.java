@@ -28,7 +28,7 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
         List<String> erros = new ArrayList<>();
 
         for (FieldError erro : ex.getBindingResult().getFieldErrors()) {
-            erros.add(erro.getField() + ":" + erro.getDefaultMessage());
+            erros.add(erro.getField() + ": " + erro.getDefaultMessage());
         }
         ErroResposta erroResposta = new ErroResposta(status.value(), "Existem campos inválidos", LocalDateTime.now(),
                 erros);
@@ -58,5 +58,15 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
         ErroResposta erroResposta = new ErroResposta(HttpStatus.BAD_REQUEST.value(), "Erro de Enum",
                 LocalDateTime.now(), erros);
         return ResponseEntity.badRequest().body(erroResposta);
+    }
+
+    @ExceptionHandler(CategoriaException.class)
+    protected ResponseEntity<Object> handleCategoriaException(CategoriaException ex) {
+        return ResponseEntity.badRequest().body(ex.getMessage());
+    }
+
+    @ExceptionHandler(ProdutoException.class)
+    protected ResponseEntity<Object> handleProdutoException(ProdutoException ex) {
+        return ResponseEntity.badRequest().body(ex.getMessage());
     }
 }

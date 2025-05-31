@@ -1,5 +1,6 @@
 package org.serratec.backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -27,6 +28,7 @@ public class Produto {
     @JoinColumn(name = "id_categoria")
     private Categoria categoria;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "id.produto")
     private List<PedidoProduto> pedidoProdutos = new ArrayList<PedidoProduto>();
 

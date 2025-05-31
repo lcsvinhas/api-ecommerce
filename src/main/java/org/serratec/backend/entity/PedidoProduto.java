@@ -39,27 +39,27 @@ public class PedidoProduto {
         this.id = id;
     }
 
-    public Double getValorVenda() {
+    public @NotNull Double getValorVenda() {
         return valorVenda;
     }
 
-    public void setValorVenda(Double valorVenda) {
+    public void setValorVenda(@NotNull Double valorVenda) {
         this.valorVenda = valorVenda;
     }
 
-    public Integer getDesconto() {
+    public @NotNull Integer getDesconto() {
         return desconto;
     }
 
-    public void setDesconto(Integer desconto) {
+    public void setDesconto(@NotNull Integer desconto) {
         this.desconto = desconto;
     }
 
-    public Integer getQuantidade() {
+    public @NotNull Integer getQuantidade() {
         return quantidade;
     }
 
-    public void setQuantidade(Integer quantidade) {
+    public void setQuantidade(@NotNull Integer quantidade) {
         this.quantidade = quantidade;
     }
 }

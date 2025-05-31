@@ -1,5 +1,6 @@
 package org.serratec.backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.PastOrPresent;
 
@@ -14,7 +15,6 @@ public class Pedido {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @PastOrPresent
     private LocalDate dataPedido;
 
     @ManyToOne
@@ -24,6 +24,7 @@ public class Pedido {
     @Enumerated(EnumType.STRING)
     private Status status;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "id.pedido")
     private List<PedidoProduto> pedidoProdutos = new ArrayList<PedidoProduto>();
 

@@ -52,6 +52,11 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
         return ResponseEntity.badRequest().body(ex.getMessage());
     }
 
+    @ExceptionHandler(UsuarioException.class)
+    protected ResponseEntity<Object> handleUsuarioException(UsuarioException ex) {
+        return ResponseEntity.badRequest().body(ex.getMessage());
+    }
+
     @ExceptionHandler(EnumException.class)
     protected ResponseEntity<Object> handleEnumException(EnumException ex) {
         List<String> erros = List.of(ex.getMessage());

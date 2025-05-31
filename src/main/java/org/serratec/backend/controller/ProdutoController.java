@@ -1,6 +1,8 @@
 package org.serratec.backend.controller;
 
 import jakarta.validation.Valid;
+import org.serratec.backend.dto.ProdutoRequestDTO;
+import org.serratec.backend.dto.ProdutoResponseDTO;
 import org.serratec.backend.entity.Produto;
 import org.serratec.backend.service.ProdutoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,19 +19,18 @@ public class ProdutoController {
     private ProdutoService service;
 
     @GetMapping
-    public List<Produto> listar() {
+    public List<ProdutoResponseDTO> listar() {
         return service.listar();
     }
 
     @PostMapping
-    public ResponseEntity<Produto> inserir(@Valid @RequestBody Produto produto) {
+    public ResponseEntity<ProdutoResponseDTO> inserir(@Valid @RequestBody ProdutoRequestDTO produto) {
         return ResponseEntity.ok(service.inserir(produto));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Produto> atualizar(@PathVariable Long id, @Valid @RequestBody Produto produto) {
-        produto.setId(id);
-        return ResponseEntity.ok(service.atualizar(produto));
+    public ResponseEntity<ProdutoResponseDTO> atualizar(@PathVariable Long id, @Valid @RequestBody ProdutoRequestDTO produto) {
+        return ResponseEntity.ok(service.atualizar(id, produto));
     }
 
     @DeleteMapping("/{id}")

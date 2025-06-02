@@ -114,4 +114,16 @@ public class PedidoService {
         double total = pedido.getPedidoProdutos().stream().mapToDouble(item -> item.getQuantidade() * item.getValorVenda()).sum();
         return new PedidoResponseDTO(pedido.getDataPedido(), new ClienteResponseDTO(cliente.getNome(), cliente.getEmail(), cliente.getTelefone(), cliente.getEndereco()), total);
     }
+
+    public List<PedidoResponseDTO> listarPorCliente (Long id){
+        List<Pedido> pedidos=repository.findByClienteId(id);
+        return pedidos.stream().map(p -> {
+            double total = p.getPedidoProdutos().stream()
+                    .mapToDouble(i -> (i.getValorVenda() - i.getDesconto()) * i.getQuantidade())
+                    .sum();
+            return new PedidoResponseDTO(p.getDataPedido(), new ClienteResponseDTO(p.getCliente().getNome(), p.getCliente().getEmail(), p.getCliente().getTelefone(), p.getCliente().getEndereco()), total);
+        }).toList();
+    }
+
 }
+

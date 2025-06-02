@@ -55,6 +55,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/produtos").hasAnyRole("ADMIN", "USER","RH")
                         .requestMatchers(HttpMethod.PUT, "/produtos/{id}").hasAnyRole("ADMIN", "USER","RH")
                         .requestMatchers(HttpMethod.DELETE, "/produtos/{id}").hasAnyRole("ADMIN", "USER","RH")
+                        .requestMatchers("/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

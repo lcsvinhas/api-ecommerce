@@ -3,6 +3,7 @@ package org.serratec.backend.controller;
 import org.serratec.backend.dto.PedidoRequestDTO;
 import org.serratec.backend.dto.PedidoResponseDTO;
 import org.serratec.backend.entity.Pedido;
+import org.serratec.backend.entity.Status;
 import org.serratec.backend.service.PedidoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -41,5 +42,10 @@ public class PedidoController {
     public ResponseEntity<Void> deletar(@PathVariable Long id) {
         service.deletar(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/status")
+    public ResponseEntity<List<PedidoResponseDTO>> listarPorStatus(@RequestParam Status status) {
+        return ResponseEntity.ok(service.listarPorStatus(status));
     }
 }

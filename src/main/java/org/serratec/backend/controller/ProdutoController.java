@@ -1,6 +1,7 @@
 package org.serratec.backend.controller;
 
 import jakarta.validation.Valid;
+import org.serratec.backend.dto.ProdutoRankingDTO;
 import org.serratec.backend.dto.ProdutoRequestDTO;
 import org.serratec.backend.dto.ProdutoResponseDTO;
 import org.serratec.backend.entity.Produto;
@@ -37,5 +38,10 @@ public class ProdutoController {
     public ResponseEntity<Void> remover(@PathVariable Long id) {
         service.deletar(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/ranking")
+    public ResponseEntity<List<ProdutoRankingDTO>> ranking() {
+        return ResponseEntity.ok(service.listarMaisVendidos());
     }
 }

@@ -1,5 +1,6 @@
 package org.serratec.backend.service;
 
+import org.serratec.backend.dto.ProdutoRankingDTO;
 import org.serratec.backend.dto.ProdutoRequestDTO;
 import org.serratec.backend.dto.ProdutoResponseDTO;
 import org.serratec.backend.entity.Categoria;
@@ -71,6 +72,12 @@ public class ProdutoService {
     public void deletar(Long id) {
         Produto produto = repository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Produto inexistente!"));
         repository.delete(produto);
+    }
+
+    public List<ProdutoRankingDTO> listarMaisVendidos() {
+        List<Object[]> resultados = pedidoProduto.buscarProdutosMaisVendidos();
+
+        return resultados.stream().map(p -> new ProdutoRankingDTO((String) p[0], ((Number) p[1]).intValue())).toList();
     }
 }
 

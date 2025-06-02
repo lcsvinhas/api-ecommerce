@@ -1,11 +1,8 @@
 package org.serratec.backend.service;
 
 import org.serratec.backend.dto.*;
-import org.serratec.backend.entity.Cliente;
+import org.serratec.backend.entity.*;
 import org.serratec.backend.entity.PK.PedidoProdutoPK;
-import org.serratec.backend.entity.Pedido;
-import org.serratec.backend.entity.PedidoProduto;
-import org.serratec.backend.entity.Produto;
 import org.serratec.backend.repository.ClienteRepository;
 import org.serratec.backend.repository.PedidoRepository;
 import org.serratec.backend.repository.ProdutoRepository;
@@ -34,7 +31,7 @@ public class PedidoService {
         pedidos.forEach(pedido -> {
             Cliente cliente = pedido.getCliente();
             double total = pedido.getPedidoProdutos().stream().mapToDouble(item -> item.getQuantidade() * item.getValorVenda()).sum();
-            PedidoResponseDTO dto = new PedidoResponseDTO(pedido.getDataPedido(), new ClienteResponseDTO(cliente.getNome(), cliente.getEmail(), cliente.getTelefone(), cliente.getEndereco()), total);
+            PedidoResponseDTO dto = new PedidoResponseDTO(pedido.getDataPedido(), new ClienteResponseDTO(cliente.getNome(), cliente.getEmail(), cliente.getTelefone(), cliente.getEndereco()), total, pedido.getStatus());
             pedidosDTO.add(dto);
         });
         return pedidosDTO;
@@ -85,7 +82,7 @@ public class PedidoService {
                         clienteEntity.getTelefone(),
                         clienteEntity.getEndereco()
                 ),
-                total
+                total, pedido.getStatus()
         );
     }
 
@@ -100,7 +97,7 @@ public class PedidoService {
 
         double totalPedido = savedPedido.getPedidoProdutos().stream().mapToDouble(x -> (x.getValorVenda() - x.getDesconto()) * x.getQuantidade()).sum();
 
-        return new PedidoResponseDTO(savedPedido.getDataPedido(), new ClienteResponseDTO(savedPedido.getCliente().getNome(), savedPedido.getCliente().getEmail(), savedPedido.getCliente().getTelefone(), savedPedido.getCliente().getEndereco()), totalPedido);
+        return new PedidoResponseDTO(savedPedido.getDataPedido(), new ClienteResponseDTO(savedPedido.getCliente().getNome(), savedPedido.getCliente().getEmail(), savedPedido.getCliente().getTelefone(), savedPedido.getCliente().getEndereco()), totalPedido, pedido.getStatus());
     }
 
     public void deletar(Long id) {
@@ -112,7 +109,7 @@ public class PedidoService {
         Pedido pedido = repository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Pedido inexistente!"));
         Cliente cliente = pedido.getCliente();
         double total = pedido.getPedidoProdutos().stream().mapToDouble(item -> item.getQuantidade() * item.getValorVenda()).sum();
-        return new PedidoResponseDTO(pedido.getDataPedido(), new ClienteResponseDTO(cliente.getNome(), cliente.getEmail(), cliente.getTelefone(), cliente.getEndereco()), total);
+        return new PedidoResponseDTO(pedido.getDataPedido(), new ClienteResponseDTO(cliente.getNome(), cliente.getEmail(), cliente.getTelefone(), cliente.getEndereco()), total, pedido.getStatus());
     }
 
     public List<PedidoResponseDTO> listarPorCliente (Long id){
@@ -121,7 +118,15 @@ public class PedidoService {
             double total = p.getPedidoProdutos().stream()
                     .mapToDouble(i -> (i.getValorVenda() - i.getDesconto()) * i.getQuantidade())
                     .sum();
-            return new PedidoResponseDTO(p.getDataPedido(), new ClienteResponseDTO(p.getCliente().getNome(), p.getCliente().getEmail(), p.getCliente().getTelefone(), p.getCliente().getEndereco()), total);
+            return new PedidoResponseDTO(p.getDataPedido(), new ClienteResponseDTO(p.getCliente().getNome(), p.getCliente().getEmail(), p.getCliente().getTelefone(), p.getCliente().getEndereco()), total, p.getStatus());
+        }).toList();
+    }
+
+    public List<PedidoResponseDTO> listarPorStatus (Status status){
+        List<Pedido> pedidos = repository.findByStatus(status);
+        return pedidos.stream().map(pedido -> {
+            Double total = pedido.getPedidoProdutos().stream().mapToDouble(i -> (i.getValorVenda() - i.getDesconto()) * i.getQuantidade()).sum();
+            return new PedidoResponseDTO(pedido.getDataPedido(), new ClienteResponseDTO(pedido.getCliente().getNome(), pedido.getCliente().getEmail(), pedido.getCliente().getTelefone(), pedido.getCliente().getEndereco()), total, pedido.getStatus());
         }).toList();
     }
 
